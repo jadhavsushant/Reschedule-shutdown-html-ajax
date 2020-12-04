@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Reschedule Shutdown</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color:  #8b8989;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  height: 300px; /* only for demonstration, should be removed */
+  background: #ccc;
+  font-size: 35px;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 30px;
+  color: Black;
+  text-align: center;
+  
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+.button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: rebeccapurple;} /* Purple */
+.button4 {background-color: brown;} /* Purple */
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<header> <h><strong>Reschedule the VM Shutdown</strong></h> </header>
+<script>
+function callWebHook(noOfMin) {
+    var sysdata = {"NoOfMins":noOfMin,"MachineName":"GLNLMS-TP97500100"}
+    localStorage.setItem("time", noOfMin)
+    $.ajax( {
+            url: "https://3d7bb960-2d57-47ec-ba5f-d3bc5a31a533.webhook.we.azure-automation.net/webhooks?token=yst%2fDe835KuREAV%2f9EoVea4iQb89FDMMMVMmcgffUhs%3d",
+            crossDomain: true,
+            type: "POST",
+            data: sysdata,
+            header: {contentType: "application/json; charset=utf-8"},
+            error: function(rtn,status,error){
+                //alert("#ERR: rtn.status=" + rtn.status + ", rtn.statusText=" + rtn.statusText + "\nstatus=" + status + ", error=" + error );
+                window.location.href= "./rescheduled.html";
+            },
+            success: function(rawres, status){
+                //alert("Success!\nstatus=" + status);
+                window.location.href= "./rescheduled.html";
+        }
+    });
+}
+</script>
+<section>
+  <nav>
+    <ul>
+      <li><a><strong>Pick the Time </strong></a></li>
+    </ul>
+  </nav>
+  
+  <article>
+          <br>
+          <br>
+          <br>
+        <button class="button button1" onclick="callWebHook(60)" >1 Hrs</button>
+        <button class="button button1" onclick="callWebHook(120)">2 Hrs</button>
+        <button class="button button1" onclick="callWebHook(180)">3 Hrs</button>
+        <button class="button button1" onclick="callWebHook(240)">4 Hrs</button><br>
+        <button class="button button2" onclick="callWebHook(0)">Skip today</button>
+        <button class="button button2" onclick="callWebHook(-1)">Skip for next 2 days</button> <br>
+  </article>
+
+<!--    <label for="birthdaytime">Reschedule Shutdown (date and time):</label>-->
+<!--    <input class="button button1" type="datetime-local" id="birthdaytime" name="birthdaytime">save()-->
+</section>
+
+<footer>
+  <p>TAD Formula One Azure Operation</p>
+</footer>
+
+</body>
+</html>
