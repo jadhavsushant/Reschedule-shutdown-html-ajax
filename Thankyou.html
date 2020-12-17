@@ -78,8 +78,8 @@ footer {
   cursor: pointer;
 }
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+/* <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> */
 
 
 
@@ -95,6 +95,13 @@ footer {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+  <script type="text/javascript">
+    setTimeout(
+      function ( ){
+        self.close();
+      }, 5000
+    );
+  </script>
 <header> <h4><strong>The system shutdown rescheduled for <script type="text/javascript"> var time= localStorage.getItem("time")
     var str_time;
     if (time == 0){
