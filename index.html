@@ -105,44 +105,41 @@ footer {
 .button3 {background-color: rebeccapurple;} /* Purple */
 .button4 {background-color: brown;} /* Purple */
 
-/*<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-/*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
   nav, article {
     width: 100%;
     height: auto;
   }
 }
+
 </style>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-
-<header> <h2><strong>Reschedule shutdown for VM-<script type="text/javascript"> 
-    { var url = window.location.href;
+<script>
+  //machine name from URL
+  { var url = window.location.href;
       var id = window.location.toString().split('?')[1]
-      var mname=id.split("=")[1]
-      }
-      localStorage.setItem("mname", mname)
-  document.write(mname) </script> </strong></h2> </header>
+      var id_mname=id.split("/")[0]
+      var guid = id.split("/")[1]
+      var mname=id_mname.split("=")[1]
+   }
+  localStorage.setItem("guid", guid)
+  localStorage.setItem("mname", mname)
+</script>
+<header> <h2><strong>Reschedule shutdown for VM-<script type="text/javascript"> var machine = localStorage.getItem ("mname");
+  document.write(machine)</script></strong></h2> </header>
 <script>
 function callWebHook(noOfMin) {
-    var url = window.location.href;
-    var id = window.location.toString().split('?')[1]
-    var mname=id.split("=")[1]    
-    var sysdata = {"NoOfMins":noOfMin,"MachineName":mname}
+    var sysdata = {"NoOfMins":noOfMin,"MachineName":mname, "guid":localStorage.getItem ("guid")}
     localStorage.setItem("time", noOfMin)
     $.ajax( {
             //url: "https://3d7bb960-2d57-47ec-ba5f-d3bc5a31a533.webhook.we.azure-automation.net/webhooks?token=yst%2fDe835KuREAV%2f9EoVea4iQb89FDMMMVMmcgffUhs%3d",
             url: "https://fb2df518-f62a-4aca-8f58-a9022248c279.webhook.cid.azure-automation.net/webhooks?token=kBJf3jF3%2fql1Vh%2f0qM30t2hX2XYqrpoEUWpSFuGaWnQ%3d",
             crossDomain: true,
             type: "POST",
-            data: sysdata,
+            data: JSON.stringify(sysdata),
             header: {contentType: "application/json; charset=utf-8"},
             error: function(rtn,status,error){
                 //alert("#ERR: rtn.status=" + rtn.status + ", rtn.statusText=" + rtn.statusText + "\nstatus=" + status + ", error=" + error );
@@ -169,8 +166,9 @@ function callWebHook(noOfMin) {
         <button class="button button1" onclick="callWebHook(120)">2 Hrs</button>
         <button class="button button1" onclick="callWebHook(180)">3 Hrs</button>
         <button class="button button1" onclick="callWebHook(240)">4 Hrs</button><br>
-        <button class="button button2" onclick="callWebHook(0)">Skip today</button>
-        <button class="button button2" onclick="callWebHook(-1)">Skip for next 2 days</button> <br>
+        <button class="button button2" onclick="callWebHook(0)">Skip Today</button>
+        <button class="button button2" onclick="callWebHook(-1)">Skip Tomorrow</button>
+        <button class="button button2" onclick="callWebHook(-2)">Skip for next 2 days</button> <br>
   </article>
 
 <!--    <label for="birthdaytime">Reschedule Shutdown (date and time):</label>-->
