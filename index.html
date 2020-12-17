@@ -135,7 +135,7 @@ function callWebHook(noOfMin) {
     var url = window.location.href;
     var id = window.location.toString().split('?')[1]
     var mname=id.split("=")[1]    
-    var sysdata = {"NoOfMins":noOfMin,"MachineName":mcname}
+    var sysdata = {"NoOfMins":noOfMin,"MachineName":mname}
     localStorage.setItem("time", noOfMin)
     $.ajax( {
             //url: "https://3d7bb960-2d57-47ec-ba5f-d3bc5a31a533.webhook.we.azure-automation.net/webhooks?token=yst%2fDe835KuREAV%2f9EoVea4iQb89FDMMMVMmcgffUhs%3d",
